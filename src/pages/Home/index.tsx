@@ -1,10 +1,10 @@
-import React from 'react'
-import styles from "./home.module.css"
+import React from "react";
+import Hero from "./components/hero";
 
 const Index = () => {
-  return (
-    <div className={`w-full h-[96vh] bg-blue-950 rounded-2xl pt-16  ${styles.curved_div}`}>GUETIX.</div>
-  )
-}
+  return <main className="">
+    <Hero/>
+  </main>;
+};
 
-export default Index
+export default Index;
