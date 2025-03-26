@@ -2,7 +2,7 @@ import Signature from "@/components/Signature";
 import Container from "@/components/ui/container";
 import React from "react";
 import TextHighlight from "./TextHeighlight";
-import { ContactMe } from "./CTA/ContactMe";
+import  ContactMe  from "./CTA/ContactMe";
 import ReadMore from "./CTA/ReadMore";
 
 interface HeroContentProps {
