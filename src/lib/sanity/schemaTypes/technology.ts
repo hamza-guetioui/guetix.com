@@ -2,7 +2,7 @@ import { defineType, defineField } from "sanity";
 import { CodeIcon, PlugIcon, LinkIcon } from "@sanity/icons";
 
 export const technology = defineType({
-  name: "technology", // Changed to singular form for consistency
+  name: "technology", 
   title: "Technology",
   type: "document",
   icon: CodeIcon,
@@ -13,23 +13,24 @@ export const technology = defineType({
       type: "string",
       validation: (Rule) =>
         Rule.required()
-          .min(2)
-          .max(80)
+          .min(1)
+          .max(20)
           .regex(
-            /^[\w\s-]+$/,
+            /^[\w\s,.!?'-()&:]*$/,
             "Only letters, numbers, spaces, and hyphens allowed"
           ),
     }),
 
     defineField({
-      name: "category",
-      title: "Category Type",
+      name: "type",
+      title: "Type",
       type: "string",
       icon: PlugIcon,
       options: {
-        list: [
+        list: [         
           { title: "Technology", value: "technology" },
           { title: "Plugin", value: "plugin" },
+          { title: "Language", value: "language" },
           { title: "Other", value: "other" },
         ],
         layout: "radio",
@@ -42,7 +43,7 @@ export const technology = defineType({
       name: "description",
       title: "Short Description",
       type: "text",
-      validation: (Rule) => Rule.required().min(20).max(300),
+      validation: (Rule) => Rule.required().min(1).max(300),
     }),
     defineField({
       name: "logo",
@@ -60,9 +61,9 @@ export const technology = defineType({
           type: "string",
           validation: (Rule) =>
             Rule.required()
-              .min(5)
-              .max(100)
-              .regex(/^[\w\s-]+$/),
+              .min(1)
+              .max(50)
+              .regex(/^[\w\s-.]+$/),
         }),
       ],
     }),
@@ -77,11 +78,18 @@ export const technology = defineType({
           allowRelative: false,
         }),
     }),
+    defineField({
+      name: "isFeatured",
+      title: "Is featured",
+      type: "boolean",
+      description: "If this tech should be displayed first or highlighted",
+      initialValue: false, // default value is false
+    }),
   ],
   preview: {
     select: {
       title: "name",
-      subtitle: "category",
+      subtitle: "type",
       media: "logo",
     },
     prepare(selection) {

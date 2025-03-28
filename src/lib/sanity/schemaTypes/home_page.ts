@@ -26,9 +26,9 @@ export const homePage = defineType({
   fields: [
     // Hero Section
     defineField({
-      name: "heroTitle",
+      name: "title",
       type: "string",
-      title: "Hero Title",
+      title: "Title",
       group: "hero",
       validation: (Rule) =>
         Rule.required()
@@ -41,20 +41,20 @@ export const homePage = defineType({
     }),
 
     defineField({
-      name: "heroHeadline",
+      name: "headline",
       type: "string",
-      title: "Main Headline",
+      title: "Headline",
       group: "hero",
       validation: (Rule) =>
         Rule.required()
           .min(5)
-          .max(50)
-          .regex(/^[\w\s,.!?'-()&:]*$/),
+          .max(100)
+          .regex(/^[a-zA-Z0-9\s,.!?'"()&:+-]*$/),
     }),
 
     defineField({
-      name: "heroSubheadline",
-      title: "Subheadline",
+      name: "bio",
+      title: "Bio description",
       type: "object",
       group: "hero",
       fields: [
@@ -72,9 +72,9 @@ export const homePage = defineType({
     }),
 
     defineField({
-      name: "heroImage",
+      name: "picture",
       type: "image",
-      title: "Hero Image",
+      title: "My Picture",
       group: "hero",
       options: {
         hotspot: true,
@@ -82,7 +82,7 @@ export const homePage = defineType({
       },
       fields: [
         defineField({
-          name: "altText",
+          name: "alt",
           type: "string",
           validation: (Rule) =>
             Rule.required()
@@ -176,6 +176,7 @@ export const homePage = defineType({
                   { title: "Part-time", value: "part-time" },
                   { title: "Contract", value: "contract" },
                   { title: "Freelance", value: "freelance" },
+                  { title: "Internship", value: "internship" },
                 ],
                 layout: "dropdown",
               },
@@ -190,7 +191,7 @@ export const homePage = defineType({
               name: "achievements",
               type: "array",
               of: [{ type: "block" }],
-              validation: (Rule) => Rule.required().min(3),
+              validation: (Rule) => Rule.required(),
             }),
              // Date Range (From and To)
              defineField({
@@ -210,9 +211,14 @@ export const homePage = defineType({
                   type: "date",
                   title: "To",
                   description: "End date of the experience.",
-                  validation: (Rule) => Rule.required(),
                 }),
               ],
+            }),
+            defineField({
+              name: "skills",
+              type: "array",
+              of: [{ type: "string" }],
+              validation: (Rule) => Rule.max(5).unique(),
             }),
           ],
         }),

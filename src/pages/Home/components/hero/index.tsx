@@ -1,35 +1,41 @@
-import Container from "@/components/ui/container";
 import React from "react";
 import Projects from "../../features/projects";
+import HeroIntro from "../../features/HeroIntro";
 import HeroContainer from "./HeroContainer";
-import HeroContent from "./HeroContent";
-// import MyPicture from "./MyPicture";
 import SocialContent from "./SocialContent";
 import styles from "./hero.module.css";
-// import Image from "next/image";
 import Technologies from "../../features/Technologies";
+import Signature from "@/components/Signature";
+import ContactMe from "./CTA/ContactMe";
+import ReadMore from "./CTA/ReadMore";
+import MyPicture from "../../features/HeroIntro/components/MyPicture";
 const Index = () => {
   return (
     <HeroContainer>
-      <Container className={styles.container_info}>
-         <HeroContent>
-          <Technologies />
-        </HeroContent>
+      <div className={styles.container_info}>
+        <div className="w-full min-w-80 md:px-4 md:pr-48 mt-2 mb-8">
+          <HeroIntro>
+            <Technologies />
+          </HeroIntro>
+          {/* Signature */}
+          <div className="flex justify-center items-center  mb-2 -mt-2">
+            <Signature className="h-20" />
+          </div>
+          {/* Action Buttons */}
+          <div className="flex items-center justify-center gap-4 pr-2 ">
+            <ContactMe label="Contact Me!" />
+            <ReadMore label="Read More?" />
+          </div>
+        </div>
         <Projects />
-        h
-      </Container>
+      </div>
 
-      <Container className={styles.container_social}>
+      <div className={styles.container_social}>
         <SocialContent />
-      </Container>
-      {/* <MyPicture /> */}
-      {/* <Image
-        src="/z1.jpg"
-        alt=""
-        width={600}
-        height={400}
-        className="w-full h-full  object-cover -z-10  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      /> */}
+      </div>
+      <div className="absolute left-1/2 top-1/2 -translate-y-1/2  -translate-x-1/2 w-4/5 md:w-1/5 ">
+        <MyPicture />
+      </div>
     </HeroContainer>
   );
 };
