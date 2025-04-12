@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// import Layout from "@/components/layout";
-
+import Layout from "@/components/layout";
 import { Lilita_One } from "next/font/google";
 
 const lilitaOne = Lilita_One({
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
 };
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { ThemeProvider } from "@/context/themeprovider";
 
 config.autoAddCss = false;
 
@@ -26,8 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={lilitaOne.variable}>
       <body>
-        {children}
-        {/* <Layout>{children}</Layout> */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Layout>{children}</Layout>
+        </ThemeProvider>
       </body>
     </html>
   );

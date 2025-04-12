@@ -1,43 +1,26 @@
 import React from "react";
-import Projects from "../../features/projects";
-import HeroIntro from "../../features/HeroIntro";
-import HeroContainer from "./HeroContainer";
-import SocialContent from "./SocialContent";
-import styles from "./hero.module.css";
-import Technologies from "../../features/Technologies";
-import Signature from "@/components/Signature";
-import ContactMe from "./CTA/ContactMe";
-import ReadMore from "./CTA/ReadMore";
-import MyPicture from "../../features/HeroIntro/components/MyPicture";
-const Index = () => {
-  return (
-    <HeroContainer>
-      <div className={styles.container_info}>
-        <div className="w-full min-w-80 md:px-4 md:pr-48 mt-2 mb-8">
-          <HeroIntro>
-            <Technologies />
-          </HeroIntro>
-          {/* Signature */}
-          <div className="flex justify-center items-center  mb-2 -mt-2">
-            <Signature className="h-20" />
-          </div>
-          {/* Action Buttons */}
-          <div className="flex items-center justify-center gap-4 pr-2 ">
-            <ContactMe label="Contact Me!" />
-            <ReadMore label="Read More?" />
-          </div>
-        </div>
-        <Projects />
-      </div>
+import Container from "@/components/ui/container";
+import HeroContent from "./HeroContent";
+import HeroShowcase from "./HeroShowcase";
 
-      <div className={styles.container_social}>
-        <SocialContent />
-      </div>
-      <div className="absolute left-1/2 top-1/2 -translate-y-1/2  -translate-x-1/2 w-4/5 md:w-1/5 ">
-        <MyPicture />
-      </div>
-    </HeroContainer>
+/**
+ * HeroSection component - Main landing section for the homepage.
+ * Displays personal introduction, technologies, projects, and call-to-action elements.
+ *
+ * @returns {JSX.Element} The HeroSection component with intro, projects, and CTA sections.
+ */
+const HeroSection = () => {
+  return (
+    <section className="relative">
+      <Container className="grid  grid-cols-1 md:grid-cols-7 max-sm:grid-rows-12 p-4 gap-8 mb-8  md:px-8 max-w-[1224px] mx-auto ">
+        {/* Left section: Introduction and Projects */}
+        <HeroContent />
+
+        {/* Right section: Youtube videos and Blog articles */}
+          <HeroShowcase />
+      </Container>
+    </section>
   );
 };
 
-export default Index;
+export default HeroSection;

@@ -1,8 +1,8 @@
 import React from "react";
-import Hero from "./components/hero";
+import Hero from "./components/Hero";
 
 const Index = () => {
-  return <main className="">
+  return <main>
     <Hero/>
   </main>;
 };
