@@ -52,14 +52,14 @@ export const project = defineType({
       validation: (Rule) => Rule.required(),
       fields: [
         defineField({
-          name: "altText",
+          name: "alt",
           title: "Alt Text",
           type: "string",
           validation: (Rule) =>
             Rule.required()
-              .min(10)
+              .min(1)
               .max(150)
-              .error("Meaningful image description required (10-150 chars)"),
+              .error("Meaningful image description required (1-150 chars)"),
         }),
       ],
       group: "generalInfo",
