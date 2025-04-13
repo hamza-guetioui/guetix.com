@@ -72,7 +72,6 @@ export const GET_PROJECTS = async (): Promise<IProject[] | null> => {
       }
     );
     if (!response) return null;
-    console.log("res", response);
 
     const parsed = ProjectSchema.array().safeParse(response);
 

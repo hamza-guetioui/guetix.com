@@ -1,3 +1,4 @@
+import { TechnologySchema } from '@/features/Technologies/server/schema';
 import { z } from 'zod';
 
 // ColorSchema for palette
@@ -33,19 +34,7 @@ export const AssetSchema = z.object({
   metadata: AssetMetadataSchema,
 });
 
-// TechnologySchema definition
-export const TechnologySchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  type: z.string(),
-  description: z.string(),
-  logo: z.object({
-    alt: z.string(),
-    asset: AssetSchema,
-  }),
-  website: z.string(),
-  isFeatured: z.boolean(),
-});
+
 
 // ProjectBlock
 export const ProjectBlockSchema = z.object({
