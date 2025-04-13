@@ -39,7 +39,7 @@ const iconMap = {
  * `Socials` - A flexible social media icon list with dynamic layout and shape.
  * Can accept static or dynamic data (e.g., from Sanity).
  */
-const Socials: React.FC<SocialsProps> = ({
+const Socials: React.FC<SocialsProps> = async ({
   direction = "col",
   variant = "rounded",
   className = "",
@@ -50,6 +50,7 @@ const Socials: React.FC<SocialsProps> = ({
     { href: "https://facebook.com", label: "Facebook", iconName: "facebook" },
   ],
 }) => {
+
   return (
     <Container
       variant={`flex-${direction}`}

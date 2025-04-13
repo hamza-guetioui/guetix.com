@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 
 const videos = [
   { id: 1, title: "Video 1", thumbnail: "/p1.jpeg" },
@@ -35,7 +36,7 @@ const Index = () => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="relative bg-gray-700 rounded-lg overflow-hidden shadow-lg w-[22rem] min-h-44 flex flex-col justify-end items-start p-4"
             >
-              <img
+              <Image
                 src={video.thumbnail}
                 alt={video.title}
                 className="absolute inset-0 w-full h-full object-cover opacity-50"

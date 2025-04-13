@@ -1,24 +1,36 @@
 import React from "react";
 import Container from "@/components/ui/container";
-import Introduction from "../../features/Introduction";
-import CallToAction from "./CallToAction";
-import ContactMe from "./CallToAction/ContactMe";
-import ReadMore from "./CallToAction/ReadMore";
-import MyPicture from "../../features/Introduction/components/MyPicture";
-import Socials from "../../features/Socials";
+
+import HeroIntroduction from "@/features/HeroIntroduction";
+import MyPicture from "@/features/HeroIntroduction/components/MyPicture";
+import Socials from "@/features/Socials";
+/**
+ * HeroContent - Renders the main section with introduction and projects.
+ */
+
+const Content = () => {
+  return (
+    <Container
+      variant="grid"
+      className="max-sm:row-start-2 max-sm:row-end-13 md:col-start-1 md:col-end-6"
+    >
+      <Introduction />
+      {/* <Projects /> */}
+    </Container>
+  );
+};
+
+export default Content;
 
 /**
  * HeroIntroduaction - Shows the hero text, picture, CTA, and social icons.
  */
-const HeroIntroduaction = () => {
+const Introduction = () => {
   return (
     <Container className="relative w-full min-h-72 bg-blue-500/80 rounded-md mt-8">
-      <Introduction>
-        <CallToAction>
-          <ContactMe label="Contact Me!" />
-          <ReadMore label="Read More?" />
-        </CallToAction>
-      </Introduction>
+      <HeroIntroduction/>
+      
+     
 
       <Container className="absolute z-10 -translate-y-full  top-full  -right-4 w-[17.4rem] delay-75 origin-bottom-right transition-transform duration-500 ease-in-out hover:scale-105">
         <MyPicture />
@@ -29,5 +41,3 @@ const HeroIntroduaction = () => {
     </Container>
   );
 };
-
-export default HeroIntroduaction;

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Videos from "../../features/Videos";
-import Articles from "../../features/Articles";
+import Videos from "@/features/Videos";
+// import Articles from "@/features/Articles";
 import Container from "@/components/ui/container";
 
 const Index = () => {
@@ -36,7 +36,7 @@ const Index = () => {
           )}
           {content === "Articles" && (
             <Slider key="articles">
-              <Articles />
+              Ho
             </Slider>
           )}
         </AnimatePresence>

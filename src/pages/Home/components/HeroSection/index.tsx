@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "@/components/ui/container";
-import HeroContent from "./HeroContent";
-import HeroShowcase from "./HeroShowcase";
+import HeroContent from "./Content";
+import HeroShowcase from "./Showcase";
 
 /**
  * HeroSection component - Main landing section for the homepage.
@@ -12,12 +12,12 @@ import HeroShowcase from "./HeroShowcase";
 const HeroSection = () => {
   return (
     <section className="relative">
-      <Container className="grid  grid-cols-1 md:grid-cols-7 max-sm:grid-rows-12 p-4 gap-8 mb-8  md:px-8 max-w-[1224px] mx-auto ">
+      <Container className="grid  grid-cols-1 md:grid-cols-7 max-sm:grid-rows-12 p-4 gap-4 mb-8  md:px-8 max-w-[1224px] mx-auto ">
         {/* Left section: Introduction and Projects */}
         <HeroContent />
 
         {/* Right section: Youtube videos and Blog articles */}
-          <HeroShowcase />
+        <HeroShowcase />
       </Container>
     </section>
   );

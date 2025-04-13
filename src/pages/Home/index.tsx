@@ -1,10 +1,15 @@
 import React from "react";
-import Hero from "./components/Hero";
+import HeroSection from "./components/HeroSection";
 
-const Index = () => {
-  return <main>
-    <Hero/>
-  </main>;
-};
+/**
+ * Homepage Entry Point
+ *
+ * Renders the main hero section.
+ */
+const Index = () => (
+  <main>
+    <HeroSection />
+  </main>
+);
 
 export default Index;
