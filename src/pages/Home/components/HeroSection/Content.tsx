@@ -1,8 +1,8 @@
 import React from "react";
 import Container from "@/components/ui/container";
 
-import HeroIntroduction from "@/features/HeroIntroduction";
-import MyPicture from "@/features/HeroIntroduction/components/MyPicture";
+import HeroIntroduction, { MyPicture } from "@/features/HeroIntroduction";
+import Projects from "@/features/Projects";
 import Socials from "@/features/Socials";
 /**
  * HeroContent - Renders the main section with introduction and projects.
@@ -15,7 +15,7 @@ const Content = () => {
       className="max-sm:row-start-2 max-sm:row-end-13 md:col-start-1 md:col-end-6"
     >
       <Introduction />
-      {/* <Projects /> */}
+      <Projects />
     </Container>
   );
 };
@@ -27,11 +27,8 @@ export default Content;
  */
 const Introduction = () => {
   return (
-    <Container className="relative w-full min-h-72 bg-blue-500/80 rounded-md mt-8">
-      <HeroIntroduction/>
-      
-     
-
+    <Container className="relative w-full min-h-72 bg-blue-500/80 rounded-md ">
+      <HeroIntroduction />
       <Container className="absolute z-10 -translate-y-full  top-full  -right-4 w-[17.4rem] delay-75 origin-bottom-right transition-transform duration-500 ease-in-out hover:scale-105">
         <MyPicture />
       </Container>

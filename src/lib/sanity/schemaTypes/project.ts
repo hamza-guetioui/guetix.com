@@ -1,6 +1,6 @@
 // schemas/project.ts
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { EarthGlobeIcon, StarIcon, DocumentVideoIcon } from "@sanity/icons";
+import { StarIcon, DocumentVideoIcon } from "@sanity/icons";
 
 export const project = defineType({
   name: "project",
@@ -9,8 +9,7 @@ export const project = defineType({
   groups: [
     { name: "generalInfo", title: "General Info", default: true },
     { name: "content", title: "Content", icon: DocumentVideoIcon },
-    { name: "settings", title: "Visibility", icon: EarthGlobeIcon },
-    { name: "featured", title: "Featured", icon: StarIcon },
+    { name: "visibility", title: "Visibility", icon: StarIcon },
   ],
   fields: [
     defineField({
@@ -43,7 +42,7 @@ export const project = defineType({
       group: "generalInfo",
     }),
     defineField({
-      name: "coverImage",
+      name: "image",
       type: "image",
       title: "Cover Image",
       options: {
@@ -74,7 +73,7 @@ export const project = defineType({
       group: "generalInfo",
     }),
     defineField({
-      name: "technologiesUsed",
+      name: "technologies",
       title: "Technologies",
       type: "array",
       of: [
@@ -87,7 +86,7 @@ export const project = defineType({
       group: "generalInfo",
     }),
     defineField({
-      name: "contentBlocks",
+      name: "content",
       type: "array",
       title: "Project Content",
       group: "content",
@@ -192,14 +191,14 @@ export const project = defineType({
       title: "Publish Project",
       type: "boolean",
       initialValue: false,
-      group: "settings",
+      group: "visibility",
     }),
     defineField({
       name: "isFeatured",
       title: "Feature Project",
       type: "boolean",
       initialValue: false,
-      group: "featured",
+      group: "visibility",
     }),
     defineField({
       name: "sortOrder",
@@ -208,7 +207,7 @@ export const project = defineType({
       description: "Lower numbers appear first",
       initialValue: 100,
       validation: (Rule) => Rule.min(0).max(1000),
-      group: "featured",
+      group: "visibility",
     }),
   ],
   preview: {

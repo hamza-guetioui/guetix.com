@@ -14,6 +14,7 @@ import ReadMore from "./components/ReadMore";
 // Server & data
 import { GET_HERO_CONTENT } from "./server/action";
 import { defaultHeroContent } from "@/data/defaults";
+import Image from "next/image";
 
 /**
  * HeroIntroduction Component
@@ -44,3 +45,26 @@ const HeroIntroduction = async () => {
 };
 
 export default HeroIntroduction;
+
+export const MyPicture: React.FC = async () => {
+  const HeroContent = await GET_HERO_CONTENT();
+  const picture = HeroContent?.picture;
+  if (!picture) return null;
+
+  return (
+      <Image
+        src={"/img/profile.png"}
+        alt={picture.alt}
+        width={picture.asset.metadata.dimensions.width}
+        height={picture.asset.metadata.dimensions.height}
+        className="w-full h-auto object-cover "
+        placeholder="blur"
+        blurDataURL={picture.asset.metadata.lqip}
+        quality={75}
+        priority 
+        sizes="(max-width: 768px) 100vw, 240px"
+      />
+  );
+};
+
+
