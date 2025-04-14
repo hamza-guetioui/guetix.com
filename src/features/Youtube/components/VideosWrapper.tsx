@@ -15,7 +15,7 @@ const videos = [
   { id: 4, title: "Video 4", thumbnail: "/p4.jpeg" },
 ];
 
-const Index = () => {
+const VideosWrapper = () => {
   const [visibleVideos, setVisibleVideos] = useState(videos);
 
   const removeVideo = (id: number) => {
@@ -56,4 +56,5 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default VideosWrapper;
+

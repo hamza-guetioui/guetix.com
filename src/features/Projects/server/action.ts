@@ -29,6 +29,7 @@ const query = `*[_type == "project"]{
   technologies[]->{
     _id,
     name,
+     type,
     description,
     logo {
       alt,
@@ -71,8 +72,8 @@ export const GET_PROJECTS = async (): Promise<IProject[] | null> => {
         next: { revalidate: 60 },
       }
     );
+    
     if (!response) return null;
-
     const parsed = ProjectSchema.array().safeParse(response);
 
     if (!parsed.success) {

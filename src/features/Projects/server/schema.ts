@@ -16,15 +16,15 @@ export const AssetMetadataSchema = z.object({
     height: z.number(),
   }),
   lqip: z.string(),
-  palette: z.object({
-    dominant: ColorSchema.optional(),
-    vibrant: ColorSchema.optional(),
-    darkVibrant: ColorSchema.optional(),
-    lightVibrant: ColorSchema.optional(),
-    muted: ColorSchema.optional(),
-    darkMuted: ColorSchema.optional(),
-    lightMuted: ColorSchema.optional(),
-  }),
+  // palette: z.object({
+  //   dominant: ColorSchema.optional(),
+  //   vibrant: ColorSchema.optional(),
+  //   darkVibrant: ColorSchema.optional(),
+  //   lightVibrant: ColorSchema.optional(),
+  //   muted: ColorSchema.optional(),
+  //   darkMuted: ColorSchema.optional(),
+  //   lightMuted: ColorSchema.optional(),
+  // }),
 });
 
 // Asset schema
@@ -99,8 +99,8 @@ export const ProjectSchema = z.object({
     ])
   ),
   externalLinks: z.object({
-    liveUrl: z.string().optional(),
-    repository: z.string().optional(),
+    liveUrl: z.string().optional().nullable(),
+    repository: z.string().optional().nullable(),
   }),
   isPublished: z.boolean(),
   isFeatured: z.boolean(),

@@ -47,7 +47,7 @@ export const project = defineType({
       title: "Cover Image",
       options: {
         hotspot: true,
-        metadata: ["lqip"],
+        metadata: ["lqip", "palette"],
       },
       validation: (Rule) => Rule.required(),
       fields: [
