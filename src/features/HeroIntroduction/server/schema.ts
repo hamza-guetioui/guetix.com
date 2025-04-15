@@ -7,14 +7,14 @@ const ColorSchema = z.object({
   title: z.string().optional(),
 });
 
-export const HeroSchema = z.object({
+const HeroObjectSchema = z.object({
   title: z.string(),
   headline: z.string(),
   bio: z.object({
     text: z.string(),
     highlight: z.string(),
   }),
-  picture: z.object({
+  image: z.object({
     alt: z.string(),
     asset: z.object({
       _id: z.string(),
@@ -37,4 +37,9 @@ export const HeroSchema = z.object({
       }),
     }),
   }),
+});
+
+// 🔐 This is the final schema to match the full response object
+export const HeroSchema = z.object({
+  hero: HeroObjectSchema,
 });

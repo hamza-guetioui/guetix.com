@@ -92,21 +92,6 @@ export const articleTag = defineType({
       description: "Color associated with this tag"
     }),
 
-    defineField({
-      name: "relatedTags",
-      type: "array",
-      title: "Related Tags",
-      group: "metadata",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "tag" }]
-        }
-      ],
-      validation: (Rule) => Rule.max(5).unique(),
-      description: "Tags that are closely related to this one"
-    }),
-
     // Organization
     defineField({
       name: "isPopular",
@@ -161,9 +146,9 @@ export const articleTag = defineType({
       ].filter(Boolean).join(" ");
 
       return {
-        title: title || "Untitled Tag",
-        subtitle: `${subtitle || "No description"} ${status}`,
-        media: media || TagIcon
+        title: title ?? "Untitled Tag",
+        subtitle: `${subtitle ?? "No description"} ${status}`,
+        media: media ?? TagIcon
       };
     },
   },

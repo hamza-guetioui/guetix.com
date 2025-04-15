@@ -3,28 +3,38 @@ import { HeroSchema } from "./schema";
 import { IHero } from "../types";
 
 const query = `*[_type == "homePage"][0]{
+  hero {
     title,
     headline,
     bio {
       text,
       highlight
     },
-    picture {
-    alt,
-    asset->{
-      _id,
-      url,
-      metadata {
-       dimensions {
-          width,
-          height
-        },
-        lqip,
-        palette
+    image {
+      alt,
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          },
+          lqip,
+          palette {
+            dominant,
+            vibrant,
+            darkVibrant,
+            lightVibrant,
+            muted,
+            darkMuted,
+            lightMuted
+          }
+        }
       }
     }
-      }
-  }`;
+  }
+}`;
 
 export const GET_HERO_CONTENT = async (): Promise<IHero | null> => {
   try {
@@ -36,12 +46,12 @@ export const GET_HERO_CONTENT = async (): Promise<IHero | null> => {
         next: { revalidate: 60 },
       }
     );
+
     if (!response) return null;
 
     const parsed = HeroSchema.safeParse(response);
-
     if (!parsed.success) {
-      console.error("Sanity HomePage Validation Error:", parsed.error);
+      console.error("Sanity HomePage Validation Error:", parsed.error.format());
       return null;
     }
 

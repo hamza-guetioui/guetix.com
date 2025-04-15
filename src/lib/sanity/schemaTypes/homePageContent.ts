@@ -1,10 +1,11 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { 
-  ComposeIcon, 
-  BookIcon, 
-  CaseIcon, 
+import {
+  ComposeIcon,
+  BookIcon,
+  CaseIcon,
   UserIcon,
   StarIcon,
+  ApiIcon,
 } from "@sanity/icons";
 
 export const homePage = defineType({
@@ -36,12 +37,13 @@ export const homePage = defineType({
     {
       name: "contact",
       title: "Contact Information",
+      icon: ApiIcon,
     },
     {
       name: "seo",
       title: "SEO & Metadata",
       icon: StarIcon,
-    }
+    },
   ],
   fields: [
     // Hero Section
@@ -63,9 +65,8 @@ export const homePage = defineType({
                 name: "Allowed characters",
                 invert: false,
               }),
-          description: "Your main title or role (e.g., 'Full Stack Developer')"
+          description: "Your main title or role (e.g., 'Full Stack Developer')",
         }),
-
         defineField({
           name: "headline",
           type: "string",
@@ -75,9 +76,8 @@ export const homePage = defineType({
               .min(5)
               .max(100)
               .regex(/^[a-zA-Z0-9\s,.!?'"()&:+-]*$/),
-          description: "A catchy one-liner that describes what you do"
+          description: "A catchy one-liner that describes what you do",
         }),
-
         defineField({
           name: "bio",
           title: "Hero Bio",
@@ -88,18 +88,17 @@ export const homePage = defineType({
               type: "text",
               title: "Bio Text",
               validation: (Rule) => Rule.required().min(10).max(255),
-              description: "A brief introduction about yourself"
+              description: "A brief introduction about yourself",
             }),
             defineField({
               name: "highlight",
               type: "string",
               title: "Highlight Text",
               validation: (Rule) => Rule.required().min(2).max(50),
-              description: "A key phrase or skill to emphasize"
+              description: "A key phrase or skill to emphasize",
             }),
           ],
         }),
-
         defineField({
           name: "image",
           type: "image",
@@ -118,54 +117,47 @@ export const homePage = defineType({
                   .min(10)
                   .max(150)
                   .regex(/^[\w\s,.!?'-()&:]*$/),
-              description: "Description of the image for accessibility"
+              description: "Description of the image for accessibility",
             }),
           ],
         }),
-
         defineField({
-          name: "ctaButtons",
-          title: "Call to Action Buttons",
-          type: "array",
-          of: [
-            defineArrayMember({
-              type: "object",
-              title: "Button",
-              fields: [
-                defineField({
-                  name: "text",
-                  type: "string",
-                  title: "Button Text",
-                  validation: (Rule) => Rule.required().min(2).max(20)
+          name: "callToAction",
+          title: "Call to Action Button",
+          type: "object",
+          fields: [
+            defineField({
+              name: "text",
+              type: "string",
+              title: "Button Text",
+              validation: (Rule) => Rule.required().min(2).max(20),
+            }),
+            defineField({
+              name: "url",
+              type: "url",
+              title: "Button URL",
+              validation: (Rule) =>
+                Rule.required().uri({
+                  scheme: ["http", "https", "mailto", "tel"],
                 }),
-                defineField({
-                  name: "url",
-                  type: "url",
-                  title: "Button URL",
-                  validation: (Rule) => Rule.required().uri({
-                    scheme: ["http", "https", "mailto", "tel"]
-                  })
-                }),
-                defineField({
-                  name: "variant",
-                  type: "string",
-                  title: "Button Style",
-                  options: {
-                    list: [
-                      { title: "Primary", value: "primary" },
-                      { title: "Secondary", value: "secondary" },
-                      { title: "Outline", value: "outline" }
-                    ],
-                    layout: "radio"
-                  },
-                  initialValue: "primary"
-                })
-              ]
-            })
+            }),
+            defineField({
+              name: "variant",
+              type: "string",
+              title: "Button Style",
+              options: {
+                list: [
+                  { title: "Primary", value: "primary" },
+                  { title: "Secondary", value: "secondary" },
+                  { title: "Outline", value: "outline" },
+                ],
+                layout: "radio",
+              },
+              initialValue: "primary",
+            }),
           ],
-          validation: (Rule) => Rule.max(3)
-        })
-      ]
+        }),
+      ],
     }),
 
     // About Section
@@ -176,7 +168,7 @@ export const homePage = defineType({
       group: "about",
       of: [{ type: "block" }],
       validation: (Rule) => Rule.required(),
-      description: "Detailed information about yourself and your work"
+      description: "Detailed information about yourself and your work",
     }),
 
     // Education Section
@@ -190,7 +182,78 @@ export const homePage = defineType({
           type: "object",
           title: "Education Entry",
           fields: [
-            // ... existing education fields ...
+            defineField({
+              name: "degree",
+              type: "string",
+              title: "Degree/Certification",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Name of the degree or certification",
+            }),
+            defineField({
+              name: "institution",
+              type: "string",
+              title: "Institution",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Name of the educational institution",
+            }),
+            defineField({
+              name: "description",
+              type: "text",
+              title: "Description",
+              validation: (Rule) => Rule.required().min(10).max(500),
+              description: "Details about your education",
+            }),
+            defineField({
+              name: "dateRange",
+              type: "object",
+              title: "Date Range",
+              fields: [
+                defineField({
+                  name: "startDate",
+                  type: "date",
+                  title: "Start Date",
+                  validation: (Rule) => Rule.required(),
+                  description: "Start date of the education",
+                }),
+                defineField({
+                  name: "endDate",
+                  type: "date",
+                  title: "End Date",
+                  description:
+                    "End date of the education (leave empty if current)",
+                }),
+                defineField({
+                  name: "isCurrent",
+                  type: "boolean",
+                  title: "Currently Studying",
+                  initialValue: false,
+                  description: "Check if you are currently studying here",
+                }),
+              ],
+            }),
+            defineField({
+              name: "location",
+              type: "string",
+              title: "Location",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Location of the institution",
+            }),
+            defineField({
+              name: "skills",
+              type: "array",
+              title: "Skills Learned",
+              of: [{ type: "string" }],
+              validation: (Rule) => Rule.max(5).unique(),
+              description: "Key skills or subjects learned",
+            }),
+            defineField({
+              name: "achievements",
+              type: "array",
+              title: "Achievements",
+              of: [{ type: "string" }],
+              validation: (Rule) => Rule.max(5),
+              description: "Notable achievements during this education",
+            }),
           ],
         }),
       ],
@@ -207,7 +270,95 @@ export const homePage = defineType({
           type: "object",
           title: "Experience Entry",
           fields: [
-            // ... existing experience fields ...
+            defineField({
+              name: "company",
+              type: "string",
+              title: "Company Name",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Name of the company or organization",
+            }),
+            defineField({
+              name: "role",
+              type: "string",
+              title: "Job Role",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Your position or role in the company",
+            }),
+            defineField({
+              name: "employmentType",
+              type: "string",
+              title: "Employment Type",
+              options: {
+                list: [
+                  { title: "Full-time", value: "full-time" },
+                  { title: "Part-time", value: "part-time" },
+                  { title: "Contract", value: "contract" },
+                  { title: "Freelance", value: "freelance" },
+                  { title: "Internship", value: "internship" },
+                ],
+                layout: "dropdown",
+              },
+              description: "Type of employment",
+            }),
+            defineField({
+              name: "description",
+              type: "text",
+              title: "Job Description",
+              validation: (Rule) => Rule.required().min(10).max(500),
+              description:
+                "Brief description of your role and responsibilities",
+            }),
+            defineField({
+              name: "dateRange",
+              type: "object",
+              title: "Date Range",
+              fields: [
+                defineField({
+                  name: "startDate",
+                  type: "date",
+                  title: "Start Date",
+                  validation: (Rule) => Rule.required(),
+                  description: "Start date of the employment",
+                }),
+                defineField({
+                  name: "endDate",
+                  type: "date",
+                  title: "End Date",
+                  description:
+                    "End date of the employment (leave empty if current)",
+                }),
+              ],
+            }),
+            defineField({
+              name: "isCurrent",
+              type: "boolean",
+              title: "Current Position",
+              initialValue: false,
+              description: "Check if this is your current position",
+            }),
+            defineField({
+              name: "location",
+              type: "string",
+              title: "Location",
+              validation: (Rule) => Rule.required().min(3).max(100),
+              description: "Location of the company",
+            }),
+            defineField({
+              name: "skills",
+              type: "array",
+              title: "Skills Used",
+              of: [{ type: "string" }],
+              validation: (Rule) => Rule.max(5).unique(),
+              description: "Key technologies and skills used",
+            }),
+            defineField({
+              name: "achievements",
+              type: "array",
+              title: "Key Achievements",
+              of: [{ type: "string" }],
+              validation: (Rule) => Rule.max(5),
+              description: "Notable accomplishments in this role",
+            }),
           ],
         }),
       ],
@@ -225,78 +376,16 @@ export const homePage = defineType({
           type: "string",
           title: "Email Address",
           validation: (Rule) => Rule.required().email(),
-          description: "Your primary email address"
+          description: "Your primary email address",
         }),
         defineField({
           name: "phone",
           type: "string",
           title: "Phone Number",
           validation: (Rule) => Rule.required().min(10).max(15),
-          description: "Your contact phone number"
+          description: "Your contact phone number",
         }),
-        defineField({
-          name: "location",
-          type: "string",
-          title: "Location",
-          validation: (Rule) => Rule.required().min(3).max(100),
-          description: "Your current location"
-        }),
-        defineField({
-          name: "socialLinks",
-          title: "Social Media Links",
-          type: "array",
-          of: [
-            defineArrayMember({
-              type: "object",
-              title: "Social Link",
-              fields: [
-                defineField({
-                  name: "platform",
-                  type: "string",
-                  title: "Platform",
-                  options: {
-                    list: [
-                      { title: "LinkedIn", value: "linkedin" },
-                      { title: "GitHub", value: "github" },
-                      { title: "Twitter", value: "twitter" },
-                      { title: "Instagram", value: "instagram" },
-                      { title: "Other", value: "other" }
-                    ]
-                  }
-                }),
-                defineField({
-                  name: "url",
-                  type: "url",
-                  title: "Profile URL",
-                  validation: (Rule) => Rule.required().uri({
-                    scheme: ["http", "https"]
-                  })
-                }),
-                defineField({
-                  name: "label",
-                  type: "string",
-                  title: "Custom Label",
-                  description: "Custom label for 'Other' platform type"
-                })
-              ]
-            })
-          ],
-          validation: (Rule) => Rule.max(5)
-        }),
-        defineField({
-          name: "availability",
-          type: "string",
-          title: "Availability Status",
-          options: {
-            list: [
-              { title: "Available for Work", value: "available" },
-              { title: "Open to Opportunities", value: "open" },
-              { title: "Not Available", value: "unavailable" }
-            ]
-          },
-          initialValue: "open"
-        })
-      ]
+      ],
     }),
 
     // SEO & Metadata
@@ -306,9 +395,31 @@ export const homePage = defineType({
       type: "object",
       group: "seo",
       fields: [
-        // ... existing SEO fields ...
-      ]
-    })
+        defineField({
+          name: "metaTitle",
+          type: "string",
+          title: "Meta Title",
+          validation: (Rule) => Rule.max(60),
+          description: "Title for search engines (max 60 characters)",
+        }),
+        defineField({
+          name: "metaDescription",
+          type: "text",
+          title: "Meta Description",
+          validation: (Rule) => Rule.max(160),
+          description: "Description for search engines (max 160 characters)",
+        }),
+        defineField({
+          name: "ogImage",
+          type: "image",
+          title: "Open Graph Image",
+          description: "Image for social media sharing",
+          options: {
+            hotspot: true,
+          },
+        }),
+      ],
+    }),
   ],
 
   preview: {
@@ -319,9 +430,9 @@ export const homePage = defineType({
     },
     prepare({ title, subtitle, media }) {
       return {
-        title: title || "Home Page",
-        subtitle: subtitle || "No headline set",
-        media: media || UserIcon,
+        title: title ?? "Home Page",
+        subtitle: subtitle ?? "No headline set",
+        media: media ?? UserIcon,
       };
     },
   },

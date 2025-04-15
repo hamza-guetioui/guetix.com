@@ -1,10 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { 
-  DocumentIcon, 
-  TagIcon, 
-  ImageIcon, 
-  StarIcon
-} from "@sanity/icons";
+import { DocumentIcon, TagIcon, ImageIcon, StarIcon } from "@sanity/icons";
 
 export const article = defineType({
   name: "article",
@@ -32,7 +27,7 @@ export const article = defineType({
       name: "seo",
       title: "SEO",
       icon: StarIcon,
-    }
+    },
   ],
   fields: [
     // Content
@@ -49,7 +44,7 @@ export const article = defineType({
             name: "Allowed characters",
             invert: false,
           }),
-      description: "The main title of your article"
+      description: "The main title of your article",
     }),
 
     defineField({
@@ -62,7 +57,7 @@ export const article = defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
-      description: "The URL-friendly version of the title"
+      description: "The URL-friendly version of the title",
     }),
 
     defineField({
@@ -71,7 +66,7 @@ export const article = defineType({
       title: "Excerpt",
       group: "content",
       validation: (Rule) => Rule.required().min(50).max(200),
-      description: "A short summary of the article"
+      description: "A short summary of the article",
     }),
 
     defineField({
@@ -168,7 +163,7 @@ export const article = defineType({
       group: "metadata",
       to: [{ type: "articleCategory" }],
       validation: (Rule) => Rule.required(),
-      description: "The main category of the article"
+      description: "The main category of the article",
     }),
 
     defineField({
@@ -179,21 +174,24 @@ export const article = defineType({
       of: [
         {
           type: "reference",
-          to: [{ type: "tag" }]
-        }
+          to: [{ type: "articleTag" }],
+        },
       ],
       validation: (Rule) => Rule.max(10).unique(),
-      description: "Tags related to the article"
+      description: "Tags related to the article",
     }),
 
     defineField({
       name: "author",
-      type: "reference",
+      type: "string",
       title: "Author",
       group: "metadata",
-      to: [{ type: "author" }],
+      description: "The author of the article",
       validation: (Rule) => Rule.required(),
-      description: "The author of the article"
+        initialValue: async (_, context) => {
+          const currentUserName = context?.currentUser?.name;
+        return currentUserName ?? "";
+      },
     }),
 
     defineField({
@@ -202,7 +200,7 @@ export const article = defineType({
       title: "Published At",
       group: "metadata",
       validation: (Rule) => Rule.required(),
-      description: "When the article was published"
+      description: "When the article was published",
     }),
 
     defineField({
@@ -211,7 +209,7 @@ export const article = defineType({
       title: "Reading Time (minutes)",
       group: "metadata",
       validation: (Rule) => Rule.required().min(1).max(60),
-      description: "Estimated reading time in minutes"
+      description: "Estimated reading time in minutes",
     }),
 
     // Media
@@ -280,14 +278,14 @@ export const article = defineType({
           type: "string",
           title: "Meta Title",
           validation: (Rule) => Rule.max(60),
-          description: "Title for search engines (max 60 characters)"
+          description: "Title for search engines (max 60 characters)",
         }),
         defineField({
           name: "metaDescription",
           type: "text",
           title: "Meta Description",
           validation: (Rule) => Rule.max(160),
-          description: "Description for search engines (max 160 characters)"
+          description: "Description for search engines (max 160 characters)",
         }),
         defineField({
           name: "ogImage",
@@ -295,29 +293,13 @@ export const article = defineType({
           title: "Open Graph Image",
           description: "Image for social media sharing",
           options: {
-            hotspot: true
-          }
-        })
-      ]
+            hotspot: true,
+          },
+        }),
+      ],
     }),
 
-    // Status
-    defineField({
-      name: "status",
-      type: "string",
-      title: "Status",
-      group: "metadata",
-      options: {
-        list: [
-          { title: "Draft", value: "draft" },
-          { title: "Published", value: "published" },
-          { title: "Archived", value: "archived" }
-        ],
-        layout: "radio"
-      },
-      initialValue: "draft",
-      validation: (Rule) => Rule.required()
-    })
+
   ],
 
   preview: {
@@ -326,14 +308,13 @@ export const article = defineType({
       subtitle: "excerpt",
       media: "coverImage",
       status: "status",
-      publishedAt: "publishedAt"
+      publishedAt: "publishedAt",
     },
     prepare({ title, media, publishedAt }) {
-
       return {
-        title: title || "Untitled Article",
+        title: title ?? "Untitled Article",
         subtitle: ` ${publishedAt ? new Date(publishedAt).toLocaleDateString() : "Not published"}`,
-        media: media || DocumentIcon
+        media: media ?? DocumentIcon,
       };
     },
   },
@@ -342,17 +323,17 @@ export const article = defineType({
     {
       title: "Publication Date, New",
       name: "publishedAtDesc",
-      by: [{ field: "publishedAt", direction: "desc" }]
+      by: [{ field: "publishedAt", direction: "desc" }],
     },
     {
       title: "Publication Date, Old",
       name: "publishedAtAsc",
-      by: [{ field: "publishedAt", direction: "asc" }]
+      by: [{ field: "publishedAt", direction: "asc" }],
     },
     {
       title: "Title",
       name: "titleAsc",
-      by: [{ field: "title", direction: "asc" }]
-    }
-  ]
+      by: [{ field: "title", direction: "asc" }],
+    },
+  ],
 });

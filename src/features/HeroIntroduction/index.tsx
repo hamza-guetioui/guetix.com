@@ -24,7 +24,7 @@ import Image from "next/image";
  */
 const HeroIntroduction = async () => {
   const heroContent = await GET_HERO_CONTENT();
-  const content = heroContent || defaultHeroContent;
+  const content = heroContent?.hero || defaultHeroContent;
 
   return (
     <Container className="w-[50%] md:w-[66%] p-6 pt-8">
@@ -48,12 +48,12 @@ export default HeroIntroduction;
 
 export const MyPicture: React.FC = async () => {
   const HeroContent = await GET_HERO_CONTENT();
-  const picture = HeroContent?.picture;
+  const picture = HeroContent?.hero.image;
   if (!picture) return null;
 
   return (
       <Image
-        src={"/img/profile.png"}
+        src={picture.asset.url}
         alt={picture.alt}
         width={picture.asset.metadata.dimensions.width}
         height={picture.asset.metadata.dimensions.height}
