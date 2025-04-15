@@ -1,54 +1,93 @@
 import { defineType, defineField } from "sanity";
-import { CodeIcon, PlugIcon, LinkIcon } from "@sanity/icons";
+import { CodeIcon, PlugIcon, LinkIcon, StarIcon } from "@sanity/icons";
 
 export const technology = defineType({
-  name: "technology", 
+  name: "technology",
   title: "Technology",
   type: "document",
   icon: CodeIcon,
+  groups: [
+    { name: "general", title: "General Information", default: true },
+    { name: "visual", title: "Visual Identity" },
+    { name: "metadata", title: "Metadata" },
+    { name: "organization", title: "Organization" },
+  ],
   fields: [
+    // General Information
     defineField({
       name: "name",
       title: "Technology Name",
       type: "string",
+      group: "general",
       validation: (Rule) =>
         Rule.required()
           .min(1)
-          .max(20)
+          .max(30)
           .regex(
             /^[\w\s,.!?'-()&:]*$/,
-            "Only letters, numbers, spaces, and hyphens allowed"
+            "Only letters, numbers, spaces, and common punctuation allowed"
           ),
+      description:
+        "The name of the technology (e.g., React, Node.js, TypeScript)",
+    }),
+
+    defineField({
+      name: "slug",
+      title: "URL Slug",
+      type: "slug",
+      group: "general",
+      options: {
+        source: "name",
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+      description: "URL-friendly version of the technology name",
     }),
 
     defineField({
       name: "type",
-      title: "Type",
+      title: "Technology Type",
       type: "string",
+      group: "general",
       icon: PlugIcon,
       options: {
-        list: [         
-          { title: "Technology", value: "technology" },
-          { title: "Plugin", value: "plugin" },
+        list: [
+          { title: "Framework", value: "framework" },
+          { title: "Library", value: "library" },
           { title: "Language", value: "language" },
+          { title: "Tool", value: "tool" },
+          { title: "Platform", value: "platform" },
+          { title: "Database", value: "database" },
+          { title: "Service", value: "service" },
           { title: "Other", value: "other" },
         ],
         layout: "radio",
         direction: "horizontal",
       },
-      initialValue: "technology",
+      initialValue: "framework",
       validation: (Rule) => Rule.required(),
+      description: "The category this technology belongs to",
     }),
+
     defineField({
       name: "description",
-      title: "Short Description",
+      title: "Description",
       type: "text",
-      validation: (Rule) => Rule.required().min(1).max(300),
+      group: "general",
+      validation: (Rule) =>
+        Rule.required()
+          .min(10)
+          .max(300)
+          .error("Description must be between 10-300 characters"),
+      description: "A brief description of the technology and its purpose",
     }),
+
+    // Visual Identity
     defineField({
       name: "logo",
       title: "Technology Logo",
       type: "image",
+      group: "visual",
       options: {
         hotspot: true,
         metadata: ["lqip", "palette"],
@@ -67,23 +106,84 @@ export const technology = defineType({
         }),
       ],
     }),
+
+    defineField({
+      name: "brandColor",
+      title: "Brand Color",
+      type: "color",
+      group: "visual",
+      options: {
+        disableAlpha: true,
+      },
+      description: "The primary brand color of this technology",
+    }),
+
+    // Metadata
     defineField({
       name: "website",
       title: "Official Website",
       type: "url",
+      group: "metadata",
       icon: LinkIcon,
       validation: (Rule) =>
         Rule.required().uri({
-          scheme: ["http", "https", "mailto", "tel"],
+          scheme: ["http", "https"],
           allowRelative: false,
         }),
+      description: "The official website of the technology",
     }),
+
+    defineField({
+      name: "documentation",
+      title: "Documentation URL",
+      type: "url",
+      group: "metadata",
+      icon: LinkIcon,
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ["http", "https"],
+          allowRelative: false,
+        }),
+      description: "Link to the official documentation",
+    }),
+
+    // Organization
     defineField({
       name: "isFeatured",
-      title: "Is featured",
+      title: "Featured Status",
       type: "boolean",
-      description: "If this tech should be displayed first or highlighted",
-      initialValue: false, // default value is false
+      group: "organization",
+      icon: StarIcon,
+      initialValue: false,
+      description: "Highlight this technology in special sections",
+    }),
+
+    defineField({
+      name: "proficiency",
+      title: "Proficiency Level",
+      type: "string",
+      group: "organization",
+      options: {
+        list: [
+          { title: "Beginner", value: "beginner" },
+          { title: "Intermediate", value: "intermediate" },
+          { title: "Advanced", value: "advanced" },
+          { title: "Expert", value: "expert" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "intermediate",
+      description: "Your proficiency level with this technology",
+    }),
+
+    defineField({
+      name: "displayOrder",
+      title: "Display Order",
+      type: "number",
+      group: "organization",
+      initialValue: 50,
+      validation: (Rule) => Rule.min(1).max(100).integer(),
+      description: "Lower numbers appear first in listings (1-100)",
     }),
   ],
   preview: {
@@ -91,27 +191,41 @@ export const technology = defineType({
       title: "name",
       subtitle: "type",
       media: "logo",
+      featured: "isFeatured",
+      proficiency: "proficiency",
     },
-    prepare(selection) {
+    prepare({ title, subtitle, media, featured, proficiency }) {
+      const status = [featured && "★", proficiency && `(${proficiency})`]
+        .filter(Boolean)
+        .join(" ");
+
       return {
-        title: selection.title,
-        subtitle: selection.subtitle
-          ? `${selection.subtitle.charAt(0).toUpperCase()}${selection.subtitle.slice(1)}`
-          : "No category",
-        media: selection.media,
+        title: title || "Untitled Technology",
+        subtitle: `${subtitle ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1) : "No Type"} ${status}`,
+        media: media || CodeIcon,
       };
     },
   },
   orderings: [
+    {
+      title: "Display Order",
+      name: "displayOrderAsc",
+      by: [{ field: "displayOrder", direction: "asc" }],
+    },
     {
       title: "Name",
       name: "nameAsc",
       by: [{ field: "name", direction: "asc" }],
     },
     {
-      title: "Category",
-      name: "categoryAsc",
-      by: [{ field: "category", direction: "asc" }],
+      title: "Type",
+      name: "typeAsc",
+      by: [{ field: "type", direction: "asc" }],
+    },
+    {
+      title: "Last Used",
+      name: "lastUsedDesc",
+      by: [{ field: "lastUsed", direction: "desc" }],
     },
   ],
 });

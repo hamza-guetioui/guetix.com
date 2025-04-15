@@ -1,20 +1,23 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { homePage } from "./home_page";
+import { homePage } from "./homePageContent";
 import { project } from "./project";
-import { projectCategory } from "./project_category";
+import { projectCategory } from "./projectCategory";
+import { socialAccounts } from "./socialAccounts";
 import { technology } from "./technology";
+
 import { article } from "./article";
-import { articleCategory } from "./article_category";
-import { socialAccounts } from "./social_account";
+import { articleCategory } from "./articleCategory";
+import { articleTag } from "./articleTag";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     homePage,
     project,
     projectCategory,
+    socialAccounts,
     technology,
     article,
     articleCategory,
-    socialAccounts,
+    articleTag,
   ],
 };

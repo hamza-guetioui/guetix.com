@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Videos from "@/features/Youtube";
 // import Articles from "@/features/Articles";
 import Container from "@/components/ui/container";
 
@@ -31,13 +30,13 @@ const Index = () => {
         <AnimatePresence mode="wait">
           {content === "Videos" && (
             <Slider key="videos">
-              Video
+              Videos
               {/* <Videos /> */}
             </Slider>
           )}
           {content === "Articles" && (
             <Slider key="articles">
-              Ho
+              Articles
             </Slider>
           )}
         </AnimatePresence>

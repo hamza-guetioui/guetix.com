@@ -22,7 +22,7 @@ export const project = defineType({
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Url Slug",
       type: "slug",
       options: {
         source: "title",
@@ -74,7 +74,7 @@ export const project = defineType({
     }),
     defineField({
       name: "technologies",
-      title: "Technologies",
+      title: "Technologies Used",
       type: "array",
       of: [
         defineArrayMember({
@@ -158,24 +158,24 @@ export const project = defineType({
       ],
     }),
     defineField({
-      name: "externalLinks",
+      name: "links",
       type: "object",
       title: "External Links",
       group: "content",
       fields: [
         defineField({
-          name: "liveUrl",
+          name: "demoUrl",
           type: "url",
-          title: "Live URL",
+          title: "Demo URL",
           validation: (Rule) =>
             Rule.uri({
               scheme: ["http", "https"],
             }),
         }),
         defineField({
-          name: "repository",
+          name: "sourceCodeUrl",
           type: "url",
-          title: "Code Repository",
+          title: "Source Code URL",
           description: "GitHub/GitLab/Bitbucket URL",
           validation: (Rule) =>
             Rule.uri({
@@ -188,21 +188,21 @@ export const project = defineType({
 
     defineField({
       name: "isPublished",
-      title: "Publish Project",
+      title: "Publish Status",
       type: "boolean",
       initialValue: false,
       group: "visibility",
     }),
     defineField({
       name: "isFeatured",
-      title: "Feature Project",
+      title: "Feature Status",
       type: "boolean",
       initialValue: false,
       group: "visibility",
     }),
     defineField({
-      name: "sortOrder",
-      title: "Sort Order",
+      name: "displayOrder",
+      title: "Display Order",
       type: "number",
       description: "Lower numbers appear first",
       initialValue: 100,
@@ -214,7 +214,7 @@ export const project = defineType({
     select: {
       title: "title",
       subtitle: "description",
-      media: "coverImage",
+      media: "image",
       status: "isPublished",
       featured: "isFeatured",
     },
@@ -230,12 +230,7 @@ export const project = defineType({
     {
       title: "Manual Sort",
       name: "sortOrderAsc",
-      by: [{ field: "sortOrder", direction: "asc" }],
-    },
-    {
-      title: "Featured First",
-      name: "featuredOrderAsc",
-      by: [{ field: "featuredOrder", direction: "asc" }],
+      by: [{ field: "displayOrder", direction: "asc" }],
     },
   ],
 });
