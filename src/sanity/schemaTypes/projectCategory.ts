@@ -26,9 +26,10 @@ export const projectCategory = defineType({
             /^[A-Za-z0-9\s,'-]+$/,
             "Only letters, numbers, spaces, commas, apostrophes, and hyphens are allowed."
           ),
-      description: "The name of the project category (e.g., 'Web Development', 'Mobile Apps')",
+      description:
+        "The name of the project category (e.g., 'Web Development', 'Mobile Apps')",
     }),
-    
+
     defineField({
       name: "slug",
       title: "URL Slug",
@@ -52,19 +53,32 @@ export const projectCategory = defineType({
           .min(10)
           .max(200)
           .regex(
-            /^[A-Za-z0-9\s,.'-:!?]+$/,
-            "Only letters, numbers, spaces, commas, periods, hyphens, apostrophes, colons, exclamation marks, and question marks are allowed."
+            /^[A-Za-z0-9\s',:!?.-]+$/,
+            "Only letters, numbers, spaces, commas, apostrophes, colons, exclamation marks, and question marks are allowed."
           ),
-      description: "A brief description of what projects belong in this category",
+      description:
+        "A brief description of what projects belong in this category",
     }),
 
     // Visual Appearance
     defineField({
       name: "icon",
       title: "Category Icon",
-      type: "string",
+      type: "image",
       group: "appearance",
       description: "Icon name from your icon library",
+      options: {
+        metadata: ["lqip", "palette"],
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt Text",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
     }),
 
     defineField({
@@ -115,9 +129,9 @@ export const projectCategory = defineType({
     },
     prepare({ title, subtitle, media }) {
       return {
-        title: title || "Untitled Category",
-        subtitle: subtitle || "No description",
-        media: media || TagIcon,
+        title: title ?? "Untitled Category",
+        subtitle: subtitle ?? "No description",
+        media: media ?? TagIcon,
       };
     },
   },

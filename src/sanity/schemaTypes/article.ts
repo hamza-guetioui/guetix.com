@@ -71,88 +71,10 @@ export const article = defineType({
 
     defineField({
       name: "content",
-      type: "array",
-      title: "Article Content",
+      type: "blockContent",
+      title: "Project Content",
       group: "content",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "H4", value: "h4" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-              { title: "Code", value: "code" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "URL",
-                fields: [
-                  {
-                    title: "URL",
-                    name: "href",
-                    type: "url",
-                    validation: (Rule) =>
-                      Rule.uri({
-                        scheme: ["http", "https", "mailto", "tel"],
-                      }),
-                  },
-                ],
-              },
-            ],
-          },
-        }),
-        defineArrayMember({
-          type: "image",
-          title: "Image",
-          options: {
-            hotspot: true,
-            metadata: ["lqip", "palette"],
-          },
-          fields: [
-            defineField({
-              name: "alt",
-              type: "string",
-              title: "Alt Text",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "caption",
-              type: "string",
-              title: "Caption",
-            }),
-          ],
-        }),
-        defineArrayMember({
-          type: "code",
-          title: "Code Block",
-          options: {
-            language: "typescript",
-            languageAlternatives: [
-              { title: "TypeScript", value: "typescript" },
-              { title: "JavaScript", value: "javascript" },
-              { title: "HTML", value: "html" },
-              { title: "CSS", value: "css" },
-              { title: "Python", value: "python" },
-              { title: "Java", value: "java" },
-              { title: "C++", value: "cpp" },
-              { title: "Shell", value: "shell" },
-            ],
-          },
-        }),
-      ],
+      validation: (Rule) => Rule.required().min(1),
     }),
 
     // Metadata
@@ -188,8 +110,8 @@ export const article = defineType({
       group: "metadata",
       description: "The author of the article",
       validation: (Rule) => Rule.required(),
-        initialValue: async (_, context) => {
-          const currentUserName = context?.currentUser?.name;
+      initialValue: async (_, context) => {
+        const currentUserName = context?.currentUser?.name;
         return currentUserName ?? "";
       },
     }),
@@ -298,8 +220,6 @@ export const article = defineType({
         }),
       ],
     }),
-
-
   ],
 
   preview: {

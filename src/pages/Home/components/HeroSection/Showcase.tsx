@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// import Articles from "@/features/Articles";
 import Container from "@/components/ui/container";
 
 const Index = () => {

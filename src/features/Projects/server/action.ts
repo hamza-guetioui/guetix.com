@@ -1,7 +1,12 @@
-import { client } from "@/lib/sanity/lib/client";
+import { client } from "@/sanity/lib/client";
 import { ProjectSchema } from "./schema";
 import { IProject } from "../types";
 
+// Constants
+const CACHE_TTL = 60; // 1 minute
+const QUERY_CACHE_TAG = "projects";
+
+// Sanity Query
 const query = `*[_type == "project"]{
   _id,
   title,
@@ -24,13 +29,28 @@ const query = `*[_type == "project"]{
   },
   category->{
     _id,
-    title
+    name,
+    description,
+    icon {
+      alt,
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          },
+          lqip,
+          palette
+        }
+      }
+    },
+    color
   },
   technologies[]->{
     _id,
     name,
-     type,
-    description,
     logo {
       alt,
       asset->{
@@ -46,17 +66,18 @@ const query = `*[_type == "project"]{
         }
       }
     },
-    website,
+    brandColor,
     isFeatured
   },
   content[]{
     ...,
     asset->
   },
-  externalLinks {
-    liveUrl,
-    repository
+  links {
+    demoUrl,
+    sourceCodeUrl
   },
+
   isPublished,
   isFeatured,
   sortOrder
@@ -64,24 +85,27 @@ const query = `*[_type == "project"]{
 
 export const GET_PROJECTS = async (): Promise<IProject[] | null> => {
   try {
-    const response = await client.fetch(
+    const response = await client.fetch<IProject[]>(
       query,
       {},
       {
-        cache: "force-cache",
-        next: { revalidate: 60 },
+        next: { revalidate: CACHE_TTL, tags: [QUERY_CACHE_TAG] },
       }
     );
-    
-    if (!response) return null;
+
+    if (!response) {
+      return null;
+    }
+ 
+    // Validate against schema
     const parsed = ProjectSchema.array().safeParse(response);
 
     if (!parsed.success) {
       console.error("Sanity Projects Validation Error:", parsed.error);
       return null;
     }
-
-    return parsed.data as IProject[];
+    const data = parsed.data;
+    return data;
   } catch (error) {
     console.error("Failed to fetch Projects content:", error);
     return null;

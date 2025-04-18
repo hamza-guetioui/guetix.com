@@ -1,43 +1,54 @@
-import { client } from "@/lib/sanity/lib/client";
-import {  TechnologySchema } from "./schema";
-import {  ITechnology } from "../types";
+import { client } from "@/sanity/lib/client";
+import { TechnologySchema } from "./schema";
+import { ITechnology } from "../types";
 
+// Constants
+const CACHE_TTL = 60; // 1 minute
+const QUERY_CACHE_TAG = "technologies";
+
+// Sanity Query
 const query = `*[_type == "technology"]{
-_id,
-   name,
-     type,
-     description,
-     logo {
+  _id,
+  name,
+  slug,
+  type,
+  description,
+  logo {
     alt,
     asset->{
       _id,
       url,
       metadata {
-       dimensions {
+        dimensions {
           width,
           height
-           },
+        },
         lqip,
         palette
       }
     }
-},
-     website,
-  isFeatured
-     
-  }`;
+  },
+  brandColor,
+  website,
+  isFeatured,
+  proficiency,
+  sortOrder
+}`;
 
 export const GET_TECHNOLOGIES = async (): Promise<ITechnology[] | null> => {
   try {
-    const response = await client.fetch(
+    const response = await client.fetch<ITechnology[]>(
       query,
       {},
       {
-        cache: "force-cache",
-        next: { revalidate: 60 },
+        next: { revalidate: CACHE_TTL, tags: [QUERY_CACHE_TAG] },
       }
     );
-    if (!response) return null;
+
+    if (!response) {
+      return null;
+    }
+
 
     const parsed = TechnologySchema.array().safeParse(response);
 
@@ -46,7 +57,7 @@ export const GET_TECHNOLOGIES = async (): Promise<ITechnology[] | null> => {
       return null;
     }
 
-    return parsed.data as ITechnology[];
+    return parsed.data ;
   } catch (error) {
     console.error("Failed to fetch Technologies content:", error);
     return null;

@@ -1,6 +1,7 @@
 import {  defineField, defineType } from "sanity";
 import { 
   PlayIcon, 
+  VideoIcon,
   TagIcon, 
   MasterDetailIcon,
   StarIcon,
@@ -10,7 +11,7 @@ export const video = defineType({
   name: "video",
   title: "Video",
   type: "document",
-  icon: PlayIcon,
+  icon: VideoIcon,
   groups: [
     {
       name: "content",

@@ -87,76 +87,12 @@ export const project = defineType({
     }),
     defineField({
       name: "content",
-      type: "array",
+      type: "blockContent",
       title: "Project Content",
       group: "content",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "URL",
-                fields: [
-                  {
-                    title: "URL",
-                    name: "href",
-                    type: "url",
-                    validation: (Rule) =>
-                      Rule.uri({
-                        scheme: ["http", "https", "mailto", "tel"],
-                      }),
-                  },
-                ],
-              },
-            ],
-          },
-        }),
-        defineArrayMember({
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              type: "string",
-              title: "Alt Text",
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-        }),
-        defineArrayMember({
-          name: "videoEmbed",
-          type: "object",
-          title: "Video Embed",
-          fields: [
-            defineField({
-              name: "url",
-              type: "url",
-              title: "Video URL",
-              description: "YouTube/Vimeo URL",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "caption",
-              type: "string",
-              title: "Caption",
-              validation: (Rule) => Rule.max(120),
-            }),
-          ],
-        }),
-      ],
+      validation: (Rule) => Rule.required().min(1),
     }),
+
     defineField({
       name: "links",
       type: "object",
@@ -201,7 +137,7 @@ export const project = defineType({
       group: "visibility",
     }),
     defineField({
-      name: "displayOrder",
+      name: "sortOrder",
       title: "Display Order",
       type: "number",
       description: "Lower numbers appear first",
@@ -220,8 +156,8 @@ export const project = defineType({
     },
     prepare({ title, subtitle, media, status, featured }) {
       return {
-        title: title || "Untitled Project",
-        subtitle: `${subtitle || "No description"} • ${status ? "Published" : "Draft"}${featured ? " ★" : ""}`,
+        title: title ?? "Untitled Project",
+        subtitle: `${subtitle ?? "No description"} • ${status ? "Published" : "Draft"}${featured ? " ★" : ""}`,
         media,
       };
     },

@@ -20,25 +20,28 @@ const ProjectsCarousel = ({ projects }: ProjectsCarouselProps) => {
       opts={{
         loop: true,
         align: "start",
+        dragFree: true,
+        containScroll: "trimSnaps",
+        inViewThreshold: 0.7,
+        skipSnaps: false,
       }}
       plugins={[
         Autoplay({
-          delay: 2000,
-          stopOnMouseEnter: false,
+          delay: 4000,
+          stopOnMouseEnter: true,
+          stopOnInteraction: false,
+          jump: false,
+          playOnInit: true,
         }),
       ]}
+      className="w-full"
     >
       <CarouselContent className="mx-2">
         {projects.map((project) => (
-          <CarouselItem
-            key={project._id}
-            className="basis-2/5"
-          >
+          <CarouselItem key={project._id} className="basis-2/5">
             <ProjectCard project={project} />
           </CarouselItem>
-        ))} 
-   
-     
+        ))}
       </CarouselContent>
 
       {/* <CarouselPrevious />

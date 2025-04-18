@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "@/components/ui/container";
 
-import HeroIntroduction, { MyPicture } from "@/features/HeroIntroduction";
+import HeroIntroduction from "@/features/HeroContent";
 import Projects from "@/features/Projects";
 import Socials from "@/features/Socials";
 /**
@@ -14,8 +14,8 @@ const Content = () => {
       variant="grid"
       className="max-sm:row-start-2 max-sm:row-end-13 md:col-start-1 md:col-end-6"
     >
-      <Introduction />
-      <Projects />
+      <HeroIntroductionWrapper />
+        <Projects />
     </Container>
   );
 };
@@ -23,15 +23,12 @@ const Content = () => {
 export default Content;
 
 /**
- * HeroIntroduaction - Shows the hero text, picture, CTA, and social icons.
+ * HeroIntroductionWrapper - Shows the hero text, picture, CTA, and social icons.
  */
-const Introduction = () => {
+const HeroIntroductionWrapper = () => {
   return (
     <Container className="relative w-full min-h-72 bg-blue-500/80 rounded-md ">
       <HeroIntroduction />
-      <Container className="absolute z-10 -translate-y-full  top-full  -right-4 w-[17.4rem] delay-75 origin-bottom-right transition-transform duration-500 ease-in-out hover:scale-105">
-        <MyPicture />
-      </Container>
       <Container className="absolute z-10 top-1 right-2 w-[17.4rem] delay-75 origin-bottom-right transition-transform duration-500 ease-in-out hover:scale-105">
         <Socials direction="col" variant="square" />
       </Container>

@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import SEO_DATA, { ISeo } from "@/data/SeoMetaData";
+import SEO_DATA, { ISeo } from "@/lib/constants/SeoMetaData";
 
 type Props = {
   children?: React.ReactNode;
@@ -20,13 +20,7 @@ const SEO = ({ data, page, children }: Props) => {
         if ("charSet" in item) {
           return <meta key={item.charSet} charSet={item.charSet} />;
         }
-        return (
-          <meta
-            key={item.name}
-            name={item.name}
-            content={item.content}
-          />
-        );
+        return <meta key={item.name} name={item.name} content={item.content} />;
       })}
 
       {/* Open Graph */}

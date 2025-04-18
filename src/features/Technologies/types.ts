@@ -40,9 +40,43 @@ export interface Logo {
 export interface ITechnology {
   _id: string;
   name: string;
+  slug: {
+    current: string;
+  };
   type: string;
   description: string;
   logo: Logo;
+  brandColor: BrandColor;
   website: string;
   isFeatured: boolean;
+  proficiency: "beginner" | "intermediate" | "advanced" | "expert";
+  sortOrder: number;
+}
+
+
+interface RGB {
+  r: number;
+  g: number;
+  b: number;
+}
+
+interface HSL {
+  h: number;
+  s: number;
+  l: number;
+}
+
+interface HSV {
+  h: number;
+  s: number;
+  v: number;
+}
+
+interface BrandColor {
+  rgb: RGB;
+  hsl: HSL;
+  alpha: number;
+  _type: 'color';
+  hex: string;
+  hsv: HSV;
 }

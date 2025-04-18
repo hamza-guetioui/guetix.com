@@ -133,20 +133,6 @@ export const technology = defineType({
       description: "The official website of the technology",
     }),
 
-    defineField({
-      name: "documentation",
-      title: "Documentation URL",
-      type: "url",
-      group: "metadata",
-      icon: LinkIcon,
-      validation: (Rule) =>
-        Rule.uri({
-          scheme: ["http", "https"],
-          allowRelative: false,
-        }),
-      description: "Link to the official documentation",
-    }),
-
     // Organization
     defineField({
       name: "isFeatured",
@@ -177,7 +163,7 @@ export const technology = defineType({
     }),
 
     defineField({
-      name: "displayOrder",
+      name: "sortOrder",
       title: "Display Order",
       type: "number",
       group: "organization",
@@ -200,9 +186,9 @@ export const technology = defineType({
         .join(" ");
 
       return {
-        title: title || "Untitled Technology",
+        title: title ?? "Untitled Technology",
         subtitle: `${subtitle ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1) : "No Type"} ${status}`,
-        media: media || CodeIcon,
+        media: media ?? CodeIcon,
       };
     },
   },

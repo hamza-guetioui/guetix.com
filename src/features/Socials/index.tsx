@@ -1,16 +1,8 @@
 import Container from "@/components/ui/container";
-import { Facebook, Github, Linkedin, Twitter } from "lucide-react";
-import Link from "next/link";
 import clsx from "clsx";
-
-/**
- * Represents a single social media item.
- */
-export interface SocialItem {
-  href: string;
-  label: string;
-  iconName: "linkedin" | "github" | "twitter" | "facebook";
-}
+import { GET_SOCIALS } from "./server/action";
+import { ISocial } from "./types";
+import Image from "next/image";
 
 /**
  * Props for the Socials component.
@@ -24,16 +16,7 @@ export interface SocialsProps {
   direction?: "row" | "col";
   variant?: "rounded" | "square";
   className?: string;
-  items?: SocialItem[];
 }
-
-// Default icons map based on name
-const iconMap = {
-  linkedin: Linkedin,
-  github: Github,
-  twitter: Twitter,
-  facebook: Facebook,
-};
 
 /**
  * `Socials` - A flexible social media icon list with dynamic layout and shape.
@@ -43,13 +26,11 @@ const Socials: React.FC<SocialsProps> = async ({
   direction = "col",
   variant = "rounded",
   className = "",
-  items = [
-    { href: "https://linkedin.com", label: "LinkedIn", iconName: "linkedin" },
-    { href: "https://github.com", label: "GitHub", iconName: "github" },
-    { href: "https://twitter.com", label: "Twitter", iconName: "twitter" },
-    { href: "https://facebook.com", label: "Facebook", iconName: "facebook" },
-  ],
 }) => {
+  const socials: ISocial[] | null = await GET_SOCIALS();
+  if (!socials || socials.length === 0) {
+    return null;
+  }
 
   return (
     <Container
@@ -59,30 +40,27 @@ const Socials: React.FC<SocialsProps> = async ({
         className
       )}
     >
-      {items.map(({ href, label, iconName }) => {
-        const Icon = iconMap[iconName];
-
-        if (!Icon) return null; // Skip if icon not found
-
+      {socials.map((social) => {
         return (
-          <Link
-            key={label}
-            href={href}
-            aria-label={label}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Container
+            key={social._id}
             className={clsx(
-              "text-slate-600/70 hover:text-slate-100 p-2 transition-colors duration-300 shadow-sm",
-              {
-                "rounded-full": variant === "rounded",
-                "rounded-md": variant === "square",
-                "hover:bg-slate-600/30": true,
-                "bg-slate-300/70": true,
-              }
+              "w-8 h-8",
+              variant === "rounded" && "rounded-full",
+              variant === "square" && "rounded-md",
+              "hover:bg-slate-600/30",
+              "bg-slate-300/70"
             )}
           >
-            <Icon size={15} />
-          </Link>
+            <Image
+              src={social.icon.asset.url}
+              alt={social.icon.alt}
+              width={15}
+              height={15}
+              rel="noopener noreferrer"
+              className="w-full h-full object-cover"
+            />
+          </Container>
         );
       })}
     </Container>

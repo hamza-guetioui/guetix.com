@@ -7,9 +7,11 @@ import { ArrowRight } from "lucide-react";
 
 const Index = async () => {
   const projects = await GET_PROJECTS();
+
   if (!projects || projects.length === 0) {
     return;
   }
+
 
   return (
     <Container className="w-full">

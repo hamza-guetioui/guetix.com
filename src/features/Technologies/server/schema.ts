@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // ColorSchema for palette
 export const ColorSchema = z.object({
@@ -12,6 +12,9 @@ export const ColorSchema = z.object({
 export const TechnologySchema = z.object({
   _id: z.string(),
   name: z.string(),
+  slug: z.object({
+    current: z.string(),
+  }),
   type: z.string(),
   description: z.string(),
   logo: z.object({
@@ -37,7 +40,28 @@ export const TechnologySchema = z.object({
       }),
     }),
   }),
+  brandColor: z.object({
+    rgb: z.object({
+      r: z.number(),
+      g: z.number(),
+      b: z.number(),
+    }),
+    hsl: z.object({
+      h: z.number(),
+      s: z.number(),
+      l: z.number(),
+    }),
+    alpha: z.number(),
+    _type: z.literal("color"),
+    hex: z.string(),
+    hsv: z.object({
+      h: z.number(),
+      s: z.number(),
+      v: z.number(),
+    }),
+  }),
   website: z.string(),
   isFeatured: z.boolean(),
+  proficiency: z.enum(["beginner", "intermediate", "advanced", "expert"]),
+  sortOrder: z.number(),
 });
-

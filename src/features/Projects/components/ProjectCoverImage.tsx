@@ -2,22 +2,18 @@
 
 import Image from "next/image";
 import { IProject } from "../types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 const CoverImage = ({ image }: { image: IProject["image"] }) => {
   const {
     asset: {
       url,
-      metadata: {
-        lqip,
-        palette,
-      },
+      metadata: { lqip, palette },
     },
     alt,
   } = image;
 
-  const dominantColor = palette?.dominant?.background ?? "#1f2937"; 
-
+  const dominantColor = palette?.dominant?.background ?? "#1f2937";
 
   return (
     <div
@@ -31,14 +27,17 @@ const CoverImage = ({ image }: { image: IProject["image"] }) => {
         blurDataURL={lqip}
         fill
         className={cn(
-          "object-cover transition duration-500 ease-in-out group-hover:scale-105",
+          "object-cover transition-all duration-500",
+          "group-hover:scale-105 group-hover:brightness-110 group-hover:rotate-[0.5deg]"
         )}
         sizes="(max-width: 768px) 100vw, 50vw"
         priority
       />
 
-      {/* Overlay Blur Layer */}
-      <div className="absolute inset-0 bg-black/20   group-hover:bg-black/30 group-hover:backdrop-blur-sm" />
+ 
+
+      {/* Dynamic gradient overlay */}
+      <div className="absolute inset-0 bg-black/60 to-transparent transition-all duration-500 group-hover:via-black/50" />
     </div>
   );
 };

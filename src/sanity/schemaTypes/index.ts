@@ -8,6 +8,10 @@ import { technology } from "./technology";
 import { article } from "./article";
 import { articleCategory } from "./articleCategory";
 import { articleTag } from "./articleTag";
+import { blockContent } from "./blockContent";
+import { video } from "./video";
+import { videoPlaylist } from "./videoPlaylist";
+import { videoTag } from "./videoTag";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -19,5 +23,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     article,
     articleCategory,
     articleTag,
+    blockContent,
+    video,
+    videoPlaylist,
+    videoTag,
   ],
 };

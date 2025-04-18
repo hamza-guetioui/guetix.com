@@ -6,6 +6,7 @@ import {
   UserIcon,
   StarIcon,
   ApiIcon,
+  HomeIcon,
 } from "@sanity/icons";
 
 export const homePage = defineType({
@@ -96,6 +97,12 @@ export const homePage = defineType({
               title: "Highlight Text",
               validation: (Rule) => Rule.required().min(2).max(50),
               description: "A key phrase or skill to emphasize",
+            }),
+            defineField({
+              name: "highlightColor",
+              type: "color",
+              title: "highlightColor",
+              description: "the color of the highlight text",
             }),
           ],
         }),
@@ -434,6 +441,73 @@ export const homePage = defineType({
         subtitle: subtitle ?? "No headline set",
         media: media ?? UserIcon,
       };
+    },
+  },
+});
+
+export const homePageContent = defineType({
+  name: "homePageContent",
+  title: "Home Page Content",
+  type: "document",
+  icon: HomeIcon,
+  fields: [
+    defineField({
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      validation: (Rule) => Rule.required().min(10).max(200),
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Hero Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+    }),
+    defineField({
+      name: "featuredProjects",
+      title: "Featured Projects",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "project" }],
+        },
+      ],
+      validation: (Rule) => Rule.max(6),
+    }),
+    defineField({
+      name: "featuredTechnologies",
+      title: "Featured Technologies",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "technology" }],
+        },
+      ],
+      validation: (Rule) => Rule.max(8),
+    }),
+  ],
+  preview: {
+    select: {
+      title: "title",
+      media: "heroImage",
     },
   },
 });
